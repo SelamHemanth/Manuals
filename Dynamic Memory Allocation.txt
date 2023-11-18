@@ -1,0 +1,190 @@
+Dynamic Memory Allocation
+•       It is the Process of allocating memory during execution.
+
+•       Memory is allocated on  heap segment.
+
+•       Memory management functions available in stdlib are:
+
+–      void * malloc(size_t)
+
+–      void * calloc(size_t , size_t)
+
+–      void * realloc(void *, size_t)
+
+–      void free(size_t)
+
+1.malloc()
+void * malloc(size_t size);
+
+•       Size specifies the number of bytes to be allocated.
+
+•       malloc() returns a pointer to the first byte of allocated memory.
+
+•       Returned pointer is of type void pointer.
+
+•       The allocated memory contains garbage value.
+
+•       If there is no sufficient memory available on heap, then NULL is returned.
+
+Eg ., ptr = (int *) malloc(12);
+
+Ptr = (int *) malloc(2 * sizeof(int));
+
+12 bytes are allocated here. After converting to integer pointer type, the space can hold 3 integers.
+
+ 
+
+#include<stdio.h>
+
+#include<stdlib.h>
+
+int main(void)
+
+{
+
+int *p,n,i;
+
+printf("Enter the number of integers :");
+
+scanf("%d",&n);
+
+p = (int *)malloc(n * sizeof(int));
+
+if( p == NULL)
+
+{
+
+printf("Memory not available\n");
+
+exit(1);
+
+}
+
+for( i = 0; i<n; i++)
+
+{
+
+printf("Enter an integer : ");
+
+scanf("%d", p+i);
+
+}
+
+for( i=0; i<n; i++)
+
+{
+
+printf("*(p+%d) = %d\t",i, *(p+i));
+
+}
+
+}
+
+ 
+
+ 
+
+2.Calloc()
+void * calloc(size_t n, size_t size);
+
+•       Calloc is used to allocate multiple blocks of memory.
+
+•       Calloc takes two arguments. First argument specifies the number of blocks and the second one specifies the size of each block.
+
+•       Memory allocated by calloc is initialized to zero.
+
+•       Also returns NULL if there is no sufficient memory.
+
+Eg., ptr = (int *) calloc(5,sizeof(int));
+
+Ptr = (int *)malloc(5 * sizeof(int));
+
+ 
+
+3.realloc()
+void *realloc(void *ptr,size_t newsize)
+
+•       Used to change the size of memory block allocated using malloc or calloc.
+
+•       If new size is bigger,existing data is not lost while reallocating.
+
+•       Eg., ptr = (int *)malloc(size);
+
+•       Ptr = (int *) realloc(ptr,newsize);
+
+•       If there is no sufficient memory, realloc returns NULL and old memory is retained as is.
+
+•       If you send null pointer to realloc, it behaves like malloc.
+
+•       After realloc, the pointer may or may not change.
+
+•       While increasing the size of allocation, realloc will
+
+1)      first search for space  at the same address. If available, adds the space and returns same address.
+
+2)      If space not available at same address, then searches for a new space, allocates new space of the required new size, copies data from old space to new space and releases the old space. Finally returns the new address.
+
+3)      If space not available at same address or not available at a different address also, then returns NULL. We can continue to use the already allocated memory, as it is still kept available, without releasing.
+
+4.Free()
+void free(void *p);
+
+•       The dynamically allocated memory  is not automatically released like static memory.
+
+•       Free() is used to release the memory.
+
+•       Only memory location allocated by malloc,calloc or realloc can be released using free.
+
+•       Avoids memory leak.
+
+•       We cannot free a part of the dynamically allocated memory. The entire block needs to be released at a time.
+
+•       Eg :., free(ptr);
+
+ 
+
+Dangling Pointers
+ 
+
+Pointer which is pointing to an already released address is called a dangling pointer. Using a dangling pointer to access a memory location is not valid as the memory location it is pointing to is no longer allocated.
+
+int* A = malloc(4*n);
+
+int *B = A;
+
+free(B);
+
+ 
+
+//Here A and B both are dangling pointers. We can avoid dangling pointer usage by immediately assigning the pointers to NULL.
+
+ 
+
+A = B = NULL;
+
+ 
+
+Memory Leak:
+
+Memory leak occurs when programmers create a memory in heap and forget to delete it. 
+
+Memory leaks are particularly serious issues for programs like daemons and servers which by definition never terminate.
+
+To avoid memory leaks, memory allocated on heap should always be freed when no longer needed.
+
+There are two main precautions to take ,to avoid memory leak in your code:
+
+1)      Keep the pointer that is used to store dynamically allocated memory address, safe. Do not assign any other address to it, before releasing the allocated memory.
+
+2)      For every malloc/ calloc there should be a matching free.
+
+3)      Whenever you allocate memory in a called function,
+
+a.      If you don’t need the memory after the function execution, then release the memory using free, before returning from function.
+
+b.      If you need the memory after the function execution is over, then carry the address back as a return value, or maintain the address in a global variable etc.
+
+4)      Be careful when allocating memory in a loop, as you may assign the return value to same pointer again and again leading to memory leak. Make sure to release the memory at the end of every iteration in case you are allocating memory in a loop. Or should store the return addresses in an array, instead of single variable, and then release all addresses in a loop.
+
+5)      Whenever allocating memory in a block, the pointer to store should be declared before the block, not inside the block, if you are not planning to release the memory inside the block itself.
+

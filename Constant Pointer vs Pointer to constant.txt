@@ -1,0 +1,73 @@
+Constant Pointer vs Pointer to constant
+The const key word is applied to any variable ,to indicate that the memory location of that variable cannot be modified using the variable name. However, we can access and modify the memory location indirectly using pointers.
+
+ 
+
+main()
+
+{
+
+const int x = 10;
+
+x = 20; // This statement will give compilation error as x is constant
+
+int * ptr = &x;
+
+*ptr = 20; // Indirectly modifying the value of x
+
+}
+
+ 
+
+The const keyword can be used on pointer variables also. However there are two memory locations associated with a pointer, 1) its own 2) to which it points. So we can apply the const keyword in two ways to restrict modifications to both.
+
+ 
+
+Constant Pointer
+Pointer to constant
+ 
+
+1) Int  * const ptr1;
+
+ 
+
+1) Const int *ptr2; (or) int const * ptr2;
+
+2) The pointer variable is a constant. The address assigned to ptr1 cannot be changed using ptr1.
+
+2) The address location pointed to by ptr2 is constant, it cannot be changed using ptr2.
+
+ 
+
+3) Address must be assigned to the pointer variable during initialization only.
+
+int * const ptr1 = &x;
+
+ 
+
+3) We can assign the address at any point and also change it to some other address.
+
+const int *ptr2 ;
+
+ptr2 = &x;
+
+ptr2 = &y;
+
+4) Cannot apply = operator on ptr1
+
+4) Cannot apply = operator on *ptr2
+
+5) ptr1 = &y; // not allowed
+
+5) ptr2 = 10; // not allowed
+
+6) *ptr1= 10; // allowed
+
+6) ptr2 = &y; // allowed
+
+ 
+
+Constant pointer to constant :
+const int * const ptr = &x;
+
+Both ptr and * ptr cannot be used on leftside of assignment operator .

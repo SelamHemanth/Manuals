@@ -1,0 +1,63 @@
+Char array vs string constant
+A string can be represented in two ways, either using a character array or using a character pointer.
+
+char str[10] = “Kernel”; // string is stored in writable memory in the memory allocated for str.
+
+char * pstr = “Kernel”; // string is in read-only memory & its base address is stored in pstr.
+
+ 
+
+Character array (char [])
+Character pointer (char *) initialised to a string constant
+char str[10] = “Kernel”;
+char * pstr = “Kernel”;
+Character array is a set of consecutively stored characters.
+
+Character pointer is single pointer variable that stores the address of the first character of the string.
+
+The initialized string is created in writable memory (stack or data segment).
+
+The initialized string is created in read-only section of data segment.
+
+We can access each character of the string separately using index,eg.,  str[0] means ‘K’.
+
+We can access each character of the string separately using index,eg., pstr[0] means ‘K’.
+
+We can modify each character separately.
+
+Eg., str[0] = ‘R’ ; // works fine
+
+Cannot modify the characters separately.
+
+Eg., pstr[0] = ‘R’; //gives runtime error
+
+Size of the character array variable is the number of bytes allocated for the string.
+
+Eg., sizeof(str) here is 7.
+
+Size of the character pointer will be 8 (size of pointer variable is 8 on a 64 bit machine).
+
+Eg., sizeof(pstr) is 8.
+
+Cannot assign a new string to the character array.
+
+Eg., str = “Raayan”; //gives compilation error
+
+Can assign a new string to the character pointer.
+
+Eg., pstr = “Raayan”; //creates new string in read-only memory and assigns its base address to pstr.
+
+Size of the array is fixed. So string length is limited.
+
+Size of the read-only string can be anything. Since we are storing only based address in the pointer,string length is not limited like in array.
+
+Can take as user input using scanf.
+
+scanf(“%s”,str); // allowed
+
+Need to initialize the pointer to some writable address, then only we can input some string.
+
+Eg., char * pstr = str; //str is character array
+
+scanf(“%s”,ptr);
+

@@ -1,0 +1,171 @@
+Function pointer
+A function pointer is a pointer variable that can hold the address of a function. Binary codes of the Functions are stored in the code segment. So the base address of the function can be retrieved by just accessing the function name without parenthesis.
+
+Function pointer declaration:
+                A function pointer must be declared along with the function’s return type and its arguments data type list. A function pointer is capable of holding the address of functions, whose return type and argument’s match with its own declaration.
+
+·         <dt> (* fun)(type1,type2…);
+
+·         fun is a pointer that can hold the address of a function with the given declaration.
+
+·         Address of a function can be assigned just by assigning the name of the function or by using & operator
+
+int (*fun)(int,int);
+
+If(ch == ‘+’)
+
+        fun = add;                    //int add (int,int);
+
+Else if(ch == ‘-’)
+
+        fun =&sub;                    //int sub(int,int);
+
+ 
+
+·         Function can be invoked by using function pointer name in place of function name, in a function call, or by using indirection operator
+
+ 
+
+add(a,b); // direct call
+
+ 
+
+fun(add); // using function pointer
+
+ 
+
+(*fun)(a,b); // using function pointer with indirection operator
+
+ 
+
+ 
+
+·         We can also send function pointers as arguments to other functions as below, it is called call back function :
+
+CallFun( int (*fptr)(int,int) , int x, int y)
+
+{
+
+        fptr(x,y);
+
+}
+
+ 
+
+Function returning a pointer with example
+
+Function pointer with example
+
+int * fun1(int,int);
+
+int (*pfun2)(int,int);
+
+This is declaration of a function called fun1.
+
+This is declaration of a pointer variable called pfun2.
+
+The above declaration means, fun1 is going to accept two integer inputs and returns an integer address.
+
+The above declaration means pfun2 is going to store the address of a function, that returns an integer value and accepts two integer arguments.
+
+We can directly call this function using : fun1(a,b);
+
+ 
+
+First we need to assign the address of a function to pfun2 ,then only we can call the function.
+
+pfun2 = add;
+
+pfun2(a,b);
+
+fun1 can be used to call only one implementation.
+
+We can reuse this pointer to call any function of same signature.
+
+Eg., pfun2 = add;
+
+pfun2(a,b); // add function is invoked
+
+pfun2 = sub;
+
+pfun2(a,b); // sub function is invoked
+
+ 
+
+Array of function pointers
+ 
+
+                We can declare an array, in which each element can hold the address of a function of the specified signature.
+
+Declaration and initialization of array of 4 function pointers :
+int (*funArr[4])(int,int)  = {add,sub,mul,div};
+
+·         Now (*funArr[0])(3,4) is same as add(3,4)
+
+·         (*funArr[1])(3,4) is the same as sub(3,4).
+
+·         We can now call any function just by passing an appropriate index.
+
+ 
+
+Passing a  Function pointer as an argument to a function (Call back functions)_:
+We can declare a function that can accept a function pointer as an argument.
+
+Syntax : <rettype1> FunName( <rettype2> (*fptr)(dt1,dt2…) , dt3 , dt4…);
+
+Here rettype1 is the return type of the function FunName. dt3  and dt4 etc are input arguments of the function FunName.
+
+rettype2 is the return type of the function pointer, fptr.dt1 , dt2 …etc are input arguments of the function pointer.
+
+Example Declaration : void FunInvoke(int (*calc)(int,int),int a, int b);
+
+The function FunInvoke accepts three inputs :
+
+1.       A function pointer that points to a function that takes two integers as input, and gives one integer as output.
+
+2.       Two integers a and b .
+
+ 
+
+The return type of  FunInvoke is void.
+
+main()
+
+{
+
+int ADD(int a, int b);
+
+int (*fptr)(int,int) = ADD;
+
+printf ("%d",fun(fptr));
+
+}
+
+fun(int (*fptr)(int ,int ))
+
+{
+
+return fptr(4 ,5 );
+
+}
+
+int ADD(int a,int b)
+
+{
+
+return a+b;
+
+}
+
+ 
+
+alias name for a function data type
+
+we can create an alias name for a function's data type, and use it for creating function pointers in a simpler syntax.
+
+eg., the data type of a string comparison function can be given alias name as strcmptype and then using this type alias, create a function pointer as shown below:
+
+int strcmp(char *,char *);
+typedef int strcmptype (Char *,char *);
+strcmptype  *fp;
+fp = strcmp;

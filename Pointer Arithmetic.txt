@@ -1,0 +1,190 @@
+Pointer Arithmetic
+
+Pointer is also a datatype - called derived datatype.
+
+datatypes are 3 types: 
+1)primitive - basic data types
+2)derived - arrays & pointers
+3)user defined -structures ,unions
+
+pointer are numerical unsigned integers
+
+Pointer declaration:
+
+<base data type> * var;
+
+scale factor of var => sizeof(base data type of var)
+
+int *p1; // scale factor 4
+short *p2; // scale factor 2
+
+pointer variable only stores first byte address always.
+
+int x ; //1000 1001 1002 1003 suppose these are the addresses occupied by integer variable x
+
+&x returns 1000 i.e., first byte address in x
+
+*p1 - reads 4 bytes because its scale factor is 4
+
+short y;// 1004 1005 1006 1007 suppose y is occupying the first 2 bytes, 1004 & 1005
+
+&y => 1004   
+
+*p2  - reads 2 bytes
+
+p1 = &y; // *p1 still reads 4 bytes though it is storing short address
+p2 = &x; // *p2 still reads 2 bytes 
+
+compiler will not report this mismatch as an error, istead it will convert the assigned address implicitly to the pointer type.
+Pointer indirection always reads the number of bytes based on its scale factor, not based on which address is stored.
+
+Operations on Pointers
+
+what all operations can we perform on pointers?
+If we have 2 pointers of same base data type declared as below:
+
+int *p1,*p2;
+
+assignment : p1 = p2; // allowed
+
+p1 = (int *) 0x123987; // typecasting works
+
+relational operators:
+comparisons will work on pointers
+
+p1 == p2
+p1 > p2
+
+logical operations:
+if(p1) - true if p1 is not null pointer
+if(!p1) - true if p1 is null pointer
+
+p1 && p2 - both of them not null
+p1 || p2 - atleast one of them is not a null pointer
+
+Arithmetic operations:
+
+pointers are also numbers, so we should be able to do arithmetic operations. 
+But pointers represent addresses - so we cannot apply multiplication or division on pointers.
+
+Application of *,/ or % operators on pointers will result in compilation error.
+
+addition applicable but only on pointer + integer
+
+cannot add 2 addresses - 2 pointers cannot be added
+
+int *p1,*p2;
+p1+p2 - will give compilation error
+
+we can add a pointer and an integer ,it return another address - output is also a pointer
+
+ptr + int :
+if we add any number to a pointer, it works like travelling those many steps from the given address and finding the new address.
+ptr + 5 : from ptr, 5 steps, jump 5 elements, and get address of 6th element.
+ptr + i = ptr + i*scale factor of ptr
+
+my uncle's house is 2 houses away from my house can be expressed as 
+myaddress + 2 = uncle's address 
+same concept applied to distance added to a pointer returns another pointer
+
+the integer works like an offset ( distance)
+distance is always expressed in terms of same kind of elements as the pointer base type.
+
+we can calculate the address resulted in this addition using below formula:
+p1 + i = p1 + i * scale factor of p1.
+
+
+
+subtraction applicable:
+
+ptr1 - ptr2 : applicable on 2 pointers if their base datatype is same.
+subtraction of 2 pointers gives distance between pointers as offset
+or number of elements or number of steps required to jump from p1 to p2 ,the step size being scale factor of the pointers.
+
+ptr1 - ptr2 : will work only if base data type of both pointers is same.
+it will calculate distance between these two addresses in terms of number of elements.
+
+ptr1 - ptr2 = actual diff in bytes / scale factor.
+
+expression p1 + i = p2 can be rearranged as 
+p1 - p2 = i meaning the number of elements to cross to reach p2, from p1 is considered as offset from p1 to p2.
+
+depending on if p1 or p2 is at higher side, answer is either -ve or +ve
+
+pointer - integer is applicable: 
+
+subtraction of integer from pointer is similar to addition of integer. The meaning of both operations is to take an offset and reach another address, addition takes forward offset, where as subtraction means backward offset.
+
+p1 -i => p1 - i*scale factor of p1
+
+Pointer arithmetic is more relevant when understood with arrays as all elements are of same data type in arrays.
+
+
+
+Understanding arrays using pointers:
+
+int arr[10];
+array name : arr ,represents base address of the array.
+arr => &arr[0]
+
+when we pass this array as an argument to another function, we only pass array name. which means, we are only sharing base address of the array with the function. So the function has to receive the address into a pointer. 
+The actual argument declaration for an array, is as a pointer, not as an array. Because arrays are never copied to the stack frame of the called function . They are never sent by value.
+Since we are sharing only base address of the array, it is actually call by reference. So if the function is accessing array elements, it is accessing the original array's elements of the calling function via its base address. 
+
+How is a function able to access all array elements with just the help of base address:
+It can be understood with the help of pointer arithmetic rules discussed above:
+
+first element address
+arr =>  &arr[0] 
+value
+*arr => arr[0]
+
+next element address
+arr+1 =>  &arr[1]
+value
+*(arr+1) => arr[1]
+
+ith element address
+arr+i  => &arr[i]
+value
+*(arr+i)  => arr[i]
+
+arr[i] => Index notation
+*(arr+i) => pointer notation
+
+both the expressions arr[i] and *(arr+i) are two different notation of the same thing.
+Both expressions are same for the compiler.
+
+since we are receiving pointer in a function, when we send array, we can use the pointer to calculate address of every element, using pointer arithmetic , and access all its element values.
+
+we will be able to manipulate the pointer either using index notation or pointer notation.
+
+Increment and decrement operators are also applicable on pointers as they are also addition / subtraction with 1.
+
+An array is recognized as array only inside the function where it is created. sizeof operator with array name gives its allocated memory size, based on size declaration.
+
+Once the array is shared as argument to another function, it becomes a pointer (base address). Then the size of this argument will be same as pointer size, not size of the array.
+
+we should not use array name on left side of assignment operator. So inc/dec operator cannot be applied on arrays.
+once the array is taken as argument by a function, it is no longer array. Its base address becomes the argument.
+since base address is stored in pointer, we can apply inc/dec operators on those pointers. 
+
+if we look at the below expressions, they can be translated into individual instructions as mentioned:
+
+p is a pointer and x is a variable of same based data type as p:
+
+x = *p++;
+
+means x = *p, and then p = p+1
+
+x = (*p)++;
+
+means x = *p, and then *p = *p + 1
+
+x = ++*p;
+
+means *p = *p + 1 and then x = *p
+
+x = *++p;
+
+means p = p + 1 and then x = *p
