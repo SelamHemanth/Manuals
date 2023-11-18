@@ -1,0 +1,183 @@
+Strings:
+char arr[10];
+
+char array: A character array is a set of characters, stored in contiguous memory locations.
+There is no specific delimitter for a character array.
+Inorder to take input or print the set of characters as output, we have to use a for loop, reading or writing each character separately. No need to use any loops for reading or printing the strings, like we needed for arrays.
+
+string : A character array, which ends with a null character. It can be considered as a special kind of data type, that has a special format specifier, "%s" for reading and printing.
+
+to read a string : scanf("%s",arr);
+
+scanf with %s will read the characters, store them in the array and place a null character at the end automatically.
+
+to print a string: printf("%s",arr);
+printf with %s will start printing from the given address, stops at null character.
+
+A null character is a character with no visible representation, but has an ascii value of 0. It can be programmatically represented as '\0', and is stored in memory as 0. It cannot be read from keyboard or printed on monitor.
+
+Incase we have to process each character of a string, we dont have to depend on the length/size of the array. We can simply use a condition ,where we check each character against null character.
+
+eg., while(arr[i] != '\0') , or ,
+while(arr[i] != 0) or 
+while(arr[i])
+
+String initialization :
+char str[10] = {'a','b','c','\0'}; // This is a character array that ends with a null character, so it can be called a string.
+the above string can also be initialized as :
+char str[10] = "abc"; // null character automatically added.
+
+String input functions :
+1 ) scanf() : is a multi utility library function that can read multiple inputs of different data types in a single call.
+Scanf takes the base address of a character array as argument with format specifier "%s". After reading a string, it automatically adds a null character at the end and makes it a proper string.
+When scanf reads any input (except character), it considers space / new line character as a delimitter.
+It will stop reading a string whenever there is a space or a new line character pressed, which means that we cannot read a string with spaces using a scanf. 
+
+eg., scanf("%s",str);
+printf("%s",str);
+Input : Hello World
+Output : Hello 
+in above example, "World" was not read into str, as scanf stopped reading when space was pressed after Hello.
+
+This problem however can be solved by modifying the format specifier like : %[^\n]s , so that scanf will stop reading the string only when a new line character is pressed. This way we can read a multi word sentence into a single string.
+
+Scanf also cannot limit the number of characters that it can read, depending on the size of the string. If the size of the array is 10, and the user tries to enter beyond 10 characters, scanf function will try to dump all the characters into the array, which will break the boundaries of the character array, and will lead to stack smashing error.
+
+eg., char str[10];
+scanf("%s",str);
+Input: sjfkhksjdhfkjsdhfkjdfs
+Output: Stack Smashing Detected
+
+This problem can also be solved by modifying the format specifier, like : %ws, where w represents the number of characters to read.
+
+eg., scanf("%9s",str); // will read only 9 characters from the input
+printf("%s",str);
+Input : sdfkjhkjsdhfkjsd
+Output : sdfkjhkjs
+
+2 ) gets() : gets is a function that is only specific for string input. It takes the base address of character array as input argument and reads the input string and dumps it at the given address and appends a null character at the end.
+gets can by default read multiple words separated by spaces, and stop reading when there is a new line entered.
+However, gets, similar to scanf , cannot put any limit on number of characters to read, depending on the size of the array. This is a big problem for gets as there is not way of manipulating this problem, as gets does not expect any format specifier as does scanf.
+
+eg.,  char str[10];
+gets(str); // no format specifier required
+puts(str);
+Input : fh hfh
+Output : fh hfh
+
+Input:hfhkjsdhfjksdhfjk
+Output : Stack Smashing Detected.
+
+since gets() function poses a danger of stack smashing error, it is depracated and dangerous to use. The same message is given as a warning during compilation whenever we use gets in our program.
+
+3 ) fgets() : fgets() is a string input function ,that is safe to use when compared to gets() function.
+fgets() function by default reads multiple words as input for a single string. It adds a null character at the end of the string.
+The fgets function accepts three arguments :
+declaration of fgets : char *fgets(char *str, int n, FILE *stream)
+
+argument 1 : base address of the array
+argument 2 : number of characters to read + 1 (for null character)
+argument 3 : address of input device 
+
+fgets function can read string from different devices. Inorder to read from keyboard, we have to send the address of keyboard as stdin.
+
+eg., fgets(str,10,stdin);
+Input : sdfa sdfsdf sdfsdf
+Output : sdfa sdfsd
+
+fgets function reads a string either until the given length is full or there is a new line character pressed. However, when new line character is pressed with less length, new line character is also read as part of the string. So it is again another problem for the developer to check for the new line character and replace it with null character.
+
+eg., fgets(str,10,stdin);
+Input: sdf'\n'
+The string is created with 4 characters and a null character: 's' 'd' 'f' '\n' '\0'
+
+string output functions :
+
+1 ) printf() : is a multi utility library function that can give multiple outputs of different data types in a single call, with formatting as required. It does not add any formatting of its own.
+2 ) puts() : It is a counter part of gets() function. It can print only one string at a time. It adds a new line character at the end of the string after printing.
+3 ) fputs() : It is a counter part of fgets() function. It can print a string to any device. to print to monitor, we have to use stdout as the device address.
+
+
+How to pass a string as argument to a function :
+
+A string is nothing but a character array. So we can just pass the array name as argument. For strings also, array name represents base address (address of first character).
+However, like arrays, we do not have to transfer the length/size of the array to the function separately, as the string has a delimitter (null character), so the function can use the null character condition, instead of size as condition ,for processing strings.
+
+eg., char str[10] = "kernel";
+
+function call : fun(str);
+function declaration : <returntype> fun(char str[]);
+
+Operations valid on strings :
+Strings are nothing but character arrays. So we cannot use any arithmetic or assignment or relational operators on strings. We have to write separate functions to do those operations on strings.
+
+String library functions :
+
+Every compiler comes with a set of pre-compiled library functions, for string manipulation. The function declarations can be included by adding the header file string.h.
+However, not all functions are implimented by every compiler, few functions may be missing.
+
+some commonly used library functions :
+1 ) int strlen(char str[]);
+this function counts the number of characters in the string upto null character and returns the count. However, null character is not counted.
+
+eg., char str[10] = "kernel";
+printf("%d\n",strlen(str));
+output : 6
+
+2 ) char * strcpy(char dest[] , char src[]);
+this function copies the contents of string src to dest, including the null character and also returns the destination string as output.
+
+3 ) char * strncpy(char dest[] , char src[] , int n);
+strncpy function copies only the first n characters from src to dest. Whether null character is copied or not, differs from compiler to compiler.
+
+4 ) char * strcat(char dest[] , char src[]);
+strcat concatenates contents of the string src (excluding null character),at the end of dest string and returns the dest string as output.
+
+5 ) char * strncat(char dest[], char src[] , int n);
+strncat concatenates only first n characters from source string to destination string.
+
+6 ) int strcmp(char dest[] , char src[]);
+compares the destination string with source string alphabetically, character by character and returns the ascci number difference of the different characters as output in some compilers or just returns +/- 1 in some compilers. Incase both the strings are equal it returns a 0.
+
+7 ) int stricmp(char dest[] , char src[]);
+int strcmpi(char dest[] , char src[]);
+compares the strings and give output with respect to destination string, without considering the case difference. This function considers the capital and small alphabets as same.
+
+8 ) int strncmp(char dest[], char src[],int n);
+int strnicmp(char dest[], char src[] , int n);
+compare only the first n characters.
+
+9 ) char * strrev(char str[]);
+reverse the string upto null character and return the reversed string back.
+eg., char str[10] = "kernel";
+printf("%s",strrev(str));
+output : lenrek
+
+10 ) char * strchr(char str[] , char c);
+return the address of the first occurrence of the character c, in string str.
+
+eg., char str[10] = "kernel";
+printf("%p", strchr(str, 'e'));
+output will be address of the element str[1] ,as 'e' is found at that index.
+
+11 ) char * strstr(char str[], char str1[]);
+returns the address of the first occurrence of the string str1 in str.
+
+eg., char str[10] = "kernel";
+char str1[5] = "rn";
+output will be address of the element str[2] ,as the substring "rn" is located from that address.
+
+12 ) char *strset(char *string, int c);
+strset( ) function sets all the characters in a string to given character. 
+eg., char str[10] = "testing";
+strset(str,'c');
+printf("%s",str);
+output : ccccccc
+
+13 ) similar to strset, strnset sets only the first n characters of a string to a given character.
+
+14 ) char * strlwr(char str[]);
+converts all upper case alphabets of str to lower case. Remaining characters will stay as is.
+
+15 ) char * strupr(char str[]);
+copnverts all lower case alphabets of str to upper case. Remaining characters will stay as is.

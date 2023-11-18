@@ -1,0 +1,199 @@
+Compilation stages:
+whenever we want to compile or translate our program into machine understandable language, we use a program called compiler, for example, gcc.
+however the compiler program works in several stages, before giving the final output file, a.out.
+basically there are 4 stages of compilation:
+1 ) Pre-processor
+2 ) Compiler
+3 ) Assembler
+4 ) Linker.
+
+
+Pre-processor : Preprocessor stage, scans our source code and modifies or expands the source code.
+The input is a source code file(.c), and output is expanded or modified source code(.i).
+if we want to check the code after pre-processor stage, then we have to run the compiler with an option -E, and take the output into a file with extension, i.
+
+eg., gcc -E source.c -o source.i
+
+here only pre-processor stage will happen, and the sourcecode after pre-processing will be written to source.i file.
+
+How does Pre-processor work ?
+Pre-processor works by processing the pre-processor directives, the lines of code, which start with a #.
+
+eg., #include<stdio.h>
+
+ pre-processor directives ,and their applications:
+
+1 ) File Inclusion : #include
+this directive is used to include the contents of a header file to the current source code file.
+The #include line is replaced by the pre-processor ,with the contents of the header file, that is included.
+
+eg., #include<string.h>
+this line of code is processed by the pre-processor. and it will replace that line with the contents of string.h file. string.h is a header file that contains all the declarations of string manipulation functions.
+
+if we have to declare few things, in every source code file of our program, then it is better to write all those common declarations in a header file, and include the header file in all source code files. That way we can avoid repetitions.
+
+When we create our own header file, it can be included as below :
+#include"myown.h"
+
+2 ) Non-Parameterised Macros (simple macros):
+Macros are symbolic names given to a piece of code or an expression or a constant, which is called macro expansion.
+syntax for defining a macro :
+#define MACRONAME <Macro expansion>
+
+MACRONAME is any name given for the macro, which is used in code, wherever the expansion is required.
+Macro Expansion is the piece of code, or expression or a constant, which is replaced, wherever the Macro name appears in code.
+
+eg., #define MAX 5
+MAX is a symbolic name or Macro, for 5. now whenever I need to use a value 5, instead of hardcoding it , I can use the name MAX. During pre-processing, this name MAX is replaced with 5, wherever it appears. However, if a macro name appears inside double quotation marks, or if it is part of another identifier, then it is not replaced.
+
+eg., int main()
+{
+int x = MAX;
+int MAXy = 5 * MAX;
+printf("MAX = %d", MAX);
+}
+
+After the macro MAX is replaced with 5, the code will look like this.
+
+int main()
+{
+int x =5;
+int MAXy = 5 * 5;
+printf("MAX = %d",5);
+}
+
+These are simple kind of macros, which are replaced with static pieces of code. eg.,
+
+#define PRINT printf("Hello World");
+
+the macro PRINT is replaced with the printf statement.
+
+However, if we want any changes in the code that is replaced, we can define the macro as a parameterized macro.
+
+
+3 ) Parameterised macros :
+
+we can define a macro name, along with some parameters, which will be used in the expansion, and accordingly replaced with the arguments,used in the macro call. Parameterised macros are used /called similar to functions, but they are a lot different from functions.
+
+eg., #define ADD(a,b)      printf("%d + %d = %d\n",a,b,a+b);
+
+The above macro can be used to print the addition result of different parameters everytime.
+eg., ADD(3,5)    will be expanded as : printf("%d + %d = %d\n",3,5,3+5);
+ADD(x,y)         will be expanded as : printf("%d + %d = %d\n",x,y,x+y);
+
+The macro arguments are taken for replacement as it is, without evaluation, unlike function arguments.
+ADD(2*3, 4*5)    will be expanded as : printf("%d + %d = %d\n",2*3,4*5,2*3+4*5);
+
+So this replacement may lead to precedence issues, and the result may not be as expected. So it is always better to put parentheses around each parameter, and also around the entire macro expansion, when ,defining the macro, as below :
+
+#define MUL(a,b) ((a) * (b))
+
+eg., MUL(3+4 , 5+6) will be expanded as ((3+4) * (5+6)) , so no precedence problem will happen.
+
+Parameterised macros are useful, when the amount of code to do some operation is very small, but it is going to be very frequently used, so ,we can avoid repetition of that code by using macros.
+
+However macros are not like functions. Functions involve a control jump from function call to the definition, and argument evaluation, value copying, stack frame allocation, and a jump back to the function call once function execution is completed. All this process involves extra processor effort. This effort is not required for Macros, as macros are expanded inline.
+
+So for smaller code that needs a repeated usage, is better to be used like a macro, rather than a function.
+However, if the code is bigger, it becomes unreadable.
+
+the macro arguments do not need any data type declaration. So same macro definition can be used to work on different data type parameters. This is one of the differences between macros and functions. We cannot use the same function for different data types. We need to write different functions which work on different data types.
+
+eg., #define MAX(a,b)  a>b?a:b
+this macro can be used to find biggest of two values, of any data type.
+eg., printf("biggest of %d and %d is %d\n",x,y,MAX(x,y)); // x and y are integers
+printf("biggest of %f and %f is %f\n",w,z,MAX(w,z)); // w and z are float
+eg.,
+// the following function will work only on integers.
+int max(int a,int b)
+{
+return a>b?a:b;
+}
+//the following function will work only on float data types.
+float maxf(float a,float b)
+{
+return a>b?a:b;
+}
+Macros can be nested. For example we can use one macro, in the expansion of another macro.
+eg., #define MAX(a,b) (a>b?a:b)
+#define MAX3(a,b,c)  MAX(a,b) > c ? MAX(a,b) : c
+or
+#define MAX3(a,b,c) MAX(a,MAX(b,c))
+but we cannot write like this:
+#define FACT(n) n * FACT(n-1)
+We cannot use a macro, in its own expansion. This kind of recursion, will not work.
+However, functions can be recursive, we can call a function, from within its definition. Its a very useful feature many times.
+We can write multiple lines of code in a macro expansion, by appending a '\' ,at the end of each line. However, there should not be a space after the '\' character.
+eg., #define MULTIPLE   printf("hello");\
+                        printf("hello");\
+                        printf("hello");
+
+here, the macro MULTIPLE ,will be replaced with all three printf statements.
+
+4 ) Undefine a macro :
+we can undefine a macro using #undef preprocessor directive. It can be used anywhere in the program.After this line, a macro is no longer recognized, so it wont be replaced.
+eg., #undef MAC
+
+
+
+
+5 ) Conditional Compilation directives
+We can use conditional compilation directives to compile only a part of the code using a condition. this will enable us to write code for different versions of the same software, or develop a software for different platforms, or different phases of development cycle, etc, using conditional compilation.
+the directives available are: #if, #elif, #else, #ifdef,#ifndef, #endif
+We can relate them to C's if else ladder structure.
+#if and #elif takes conditions based on macros, and relational or logical operators.
+e., #if Q == 3 // here Q is supposed to be a macro
+#elif Q >=1 && Q <=5 // condition uses relational or logical operators
+#else // is the default condition when all other conditions fail
+Every #if directive must have a corresponding #endif directive, to indicate end of the block. #ifdef and #ifndef also need #endif.
+If a macro is defined as empty , it is not allowed for comparison in conditional compilation. We can only check its defined status, using #ifdef or #ifndef.
+#if defined(<MN>) // defined is an operator.
+above line is same as #ifdef <MN>
+
+Stringizing operator #: In a parameterised macro, parameters in expansion are replaced only if they are used individually. They are not replaced if they are part of a "" (string). We can get it replaced using # operator, called stringizing operator.
+If we use stringizing operator # before a parameter in macro expansion,the parameter is replaced in double quotations "",as a string.
+eg., #define PRINT(x) printf("x = %d\n",x);
+PRINT(a)//here x inside format string is not replaced by a.
+so after replacement it looks as printf("x = %d\n",a);
+using stringizing operator, we can write the macro like this:
+#define PRINT(x) printf(#x"=%d\n",x);
+Here since x is out of "", it will be replaced, but is again put inside "" because of stringizing operator.
+after replacement it becomes printf("a""=%d\n",a);
+"a" and "=%d\n" get concatenated into one string as "a=%d\n".
+
+Token Pasting Operator: ##
+the parameter in macro expansion wont be replaced if it is used as part of another word. We can make it work using ## token pasting operator.
+## operator takes two tokens, replaces them side by side in expansion.
+eg., #define MAC(p1 ,p2)  printf("%d",p1##_##p2);
+MAC(x,y) will be replaced as printf("%d",x_y);
+
+Macros can be defined from command prompt using -D option in gcc.
+>gcc -D MN=1 src.c  
+the above command defines a macro MN as 1 , before starting preprocessing stage on src.c
+
+If a macro name is used in conditional compilation, without defining it in source code, with the intension to supply it from command prompt, but if we forget to supply at command prompt, the program will not give any error,instead it will replace the macro name with a 0. Inorder to avoid this 0 replacement, we can prompt an error/warning message, on these kind of mistakes using #error or #warning directives.
+eg., #ifndef MN
+#error "Macro name MN not defined"
+     #endif
+or
+     #if MN>4
+#warning "Wrong input for Macro MN"
+     #endif
+incase of #error preprocessing is stopped. Incase of #warning, proprocessing will continue.
+
+There are some predefined macro names that can be useful :
+__DATE__ : replaced by the date of compilation
+__TIME__ : replaced by the time of compilation
+__FILE__ : replaced by the source code file name in which it is used
+__LINE__ : replaced by the line number in which it is used
+__STDC__ : replaced by 1 if the compiler is ANSI standard, otherwise 0
+
+We can change the line number replaced by __LINE__ using #line directive.
+eg., #line 100
+     printf("%d",__LINE__); // here __LINE__ is replaced with 100
+
+#pragma directive is a special kind of directive used to enable or disable/modify some of the compiler's features.
+eg., #pragma once
+adding this at the top of a header file will ensure that the header file is copied to your code only once, no matter how many times you include it using #include.
+#pragma can be used to disable some of the compiler's optimization feature's like structure padding.
+However some of #pragma functions are compiler dependent.

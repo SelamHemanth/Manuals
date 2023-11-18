@@ -1,0 +1,103 @@
+Operators : Operators are special symbols with predefined functionality. Operators take input(operands) and perform some predefined task(operation) on the input, and return the result back.
+
+Depending on number of operands required by an operator, they are classified into 3 categories:
+i) Unary ( 1 operand)
+ii) Binary (2 operands)
+ii) Ternary (3 operands)
+
+Depending on the type of operation, again there are 8 categories:
+i) Arithmetic
+ii) Relational
+iii) Logical
+iv) Assignment
+v) Conditional
+vi) Increment & Decrement
+vii) Bitwise
+viii) Special Operators
+
+Arithmetic Operators:
+i) Unary: Unary +, Unary -
+Unary +: Multiplies the operand value with +1 and returns the product.
+Basically returns the same operand back as multiplication with +1 has no difference.
+Unary -: Multiplies the operand value with -1. Returns the operand with a negated(opposite) sign.
+ii)Binary: +,-,*,/,%
+Binary + : Addition, returns addition of 2 operands.
+Binary -: Returns subtraction of op1 with op2.
+Binary *: Multiplies the operands and returns the product.
+/: Devides the numerator with denominator and returns only the quotient. If we devide 2 integers, the result is always integer, with no decimal point. if we use real numbers for / operator,it gives quotient with decimal part also.
+% : Devides the numbers, and returns remainder. % operator can be applied only on integral data types ( short, long, signed, unsigned, char). If we apply % on float, double or long double, compilation error will come " Invalid operands to binary %".
+Operator symbols must be used as it is, without any quotations. If we put quotations, then the symbols will be stored as data. They will not work like operators.
+3 + 4 : addition happens
+3 '+' 4 : wrong expression as '+' represents character data.
+None of the operators, except assignment, does any changes to the operands.
+
+
+Relational Operators:
+Relational operators are operators useful to compare and find relation between two expressions. They are binary operators.
+They all are boolean operators, return true or false. in numeric format, true is converted to 1, false is converted to 0.
+>  : if left operand is bigger in value than right operand, this operator returns true, otherwise returns false.
+< : returns true if right operand is bigger in value than left operand, otherwise returns false.  
+>= : Returns true if left operand is either big or equal to the right operand. otherwise returns false.
+<= : Returns true if right operand is either big or equal to the left operand. Otherwise returns false.
+== : returns true if both operands are strictly equal to each other.otherwise returns false.
+!= : returns true if both operands are not equal to each other. Otherwise returns false.
+
+
+
+Relational operators are useful to write conditional statements.
+Conditional statements are statements which can be used to change the sequential flow of the program. Using these compiler can make decision on whether to execute a statement or not during runtime.
+There are 4 types of conditional statements:
+1 ) Simple if
+if(<cond>)
+{
+//what to do if <cond> is true
+// More than one statement
+//statements can be any valid C statements.( variable declarations,io/op, other conditional statements)
+// If it is only one statement, then no need of { }.
+// Depending on condition, this block execution is either skipped or continued.
+}
+Once simple if statement is executed, it will continue to the following statements in program.
+2) if else
+used when there is only one condition to check
+if(<cond>)
+{
+//True block
+//What to do if condition is true
+}
+else
+{
+//false block
+//what to do if condition is false
+//write more than 1 statement , if only one statement written, no need of {}
+// statements can be declarations, ip/op or other conditional statements.
+}
+3 ) if else ladder
+when you have multiple conditions to check, and do different things for every condition
+if(cond1)
+{
+//Block 1
+}
+else if(cond2)
+{
+// Block 2
+}
+else if(cond3)
+{
+//Block 3
+}
+... any number of conditions and blocks can be written.
+else
+{
+// Default block
+// only one else block is allowed
+// should only be at the end of if else ladder
+// Optional.
+// Will execute if none of the above conditions are true means if all the above conditions fail.
+}
+In if else ladder, the blocks are mutually exclusive. At any point only one block will be executed. Whenever one condition becomes true, its corresponding block is executed , and if else ladder ends with that block. further conditions are not checked. the control flow will continue with following statements after if else ladder.
+
+condition : is any expression that returns a numeric value that is converted to true(1) or false(0).
+a > 10 , a==10 , a=10 ,a+b ,a , 10
+any non-zero number is considered as true & true is converted to 1.
+10 , 0.11, 0.00001 , -10 : all these are non-zero numbers, means true.
+if any expression value is 0, that becomes false, and false becomes 0.

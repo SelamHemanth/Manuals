@@ -1,0 +1,25 @@
+Jump Instructions:
+1) break statement: Works only inside a switch statement or a loop.
+break statement takes the control to outside of a switch statement or a loop, breaking the execution of that statement. Execution will continue after the switch or loop.
+break can be used just like that, without any condition, but in a loop its not useful directly. So better to accompany it with a if statement.
+break can take the control out of only one loop or one switch statement.
+break statement will not wait for the statements after it, to execute, it will skip all of them.
+In a for loop, if break is written, inc/dec section will not execute.
+break statement will not break the outer loops in a nested a statement, it will only break the statement to which it belongs.
+
+2) continue statement: works only inside a loop.
+continue skips all statements after it, and jumps back to the loop condition in while and do while loops. In for loop, it will jump back to inc/dec section.
+continue will also work for only one loop. The outer loops will work as they are.
+
+3)goto statement:
+a label in a program is an identifier that is used to mark some statements as jumping points in a program.
+If only labels are there in a program, they are not going to make any difference to the program output.
+Lables are effective only if goto statements are used.
+
+goto statement is used to jump from one point in a function to another within same function. Inorder to mention the destination to jump, we use labels.
+
+eg., goto LBL; // this will take control to the point where LBL is mentioned, and execution will continue from that point.
+goto can take control to forward or backward. Backward jumps work like a loop.
+goto statement however is not recommended for creation of loops or jumping as already functionality is provided interms of loop statements and functions.
+realtime usage of goto statement is, to jump out of a nested loop/nested switch, when some condition is met, which is not possible with break statement.
+a label if used, should not be left empty. Minimum one statement must be there after the label. Labels within one function should be unique.

@@ -1,0 +1,68 @@
+2 dimensional arrays:
+
+arrays that grow in 2 directions or ,arrays that store data which depends on 2 properties, are called 2 dimensional arrays.
+Data that can be represented in a tabular format ,in rows and columns can be stored in a 2 dimensional array.
+2 dimensional arrays can also be called matrices.
+
+a 2 dimensional array can be declared as : <datatype> arrname[rows][cols];
+
+eg1., Marks of 10 students for 6 subjects can be represented by 10 rows and 6 columns.Marks can be decimal, so data type will be float.
+This data can be stored in an array, that can be declared as
+
+float arr[10][6]; //10 rows, each row for one student ; 6 columns, each column for one subject.
+
+in this array, each element is a float( data type in declaration) and there are 10 * 6 elements in total.
+
+The memory allocated for this array will be sizeof(arr) = sizeof(float) * 10 * 6.
+
+
+eg2., Sales made by 4 sales men, for 3 different items can be represented by 4 rows and 3 columns.
+Sales is an integer.
+
+declaration : int sales[4][3];
+
+total number of elements : 4 * 3.
+
+size allocated for the array : sizeof(int) * 4 * 3.
+
+
+Accessing each individual data element :
+
+A 2 dimensional array can be understood as , a single dimentional array of arrays.
+
+int arr[10][6] can be understood as array of 10 elements, each element being an array of 6 integers.
+
+Inorder to access each individual element of a 2 dimensional array, first you need to visit the row, and then a column in that particular row. So first apply row index, and then apply column index.
+
+eg., inorder to access marks of student#5, for subject#2 ,you have to apply row index as 4 ,and column index as 1, and access the element as arr[4][1].
+
+Initialization:
+We can initialize a 2 dimensional array just like a single dimensional array.
+A 2 dimensional array is represented like a table/matrix pictorially. However, it is actually stored in contiguous memory locations, with each row as one element. So we can also call a 2d array as an array of arrays.
+Because of this, if we initialize the array using comma separated values, the values are filled in each cell in the given order. If we want to distribute and fill the rows partially, we can further group the elements that should go into single a row using {}.
+When a row is not filled or partially filled during initialization, remaining elements are initialized to 0s.
+eg., int arr[3][4] = {1,2,3,4,5,6,7,8};
+is initialised like : 1 2 3 4
+                      5 6 7 8
+                      0 0 0 0
+int arr[3][4] = {{1,2},{3,4,5},{5}};
+would be initialised as: 1 2 0 0
+                         3 4 5 0
+                         5 0 0 0
+in a 2 dimensional array the first dimension is optional, when the array is initialized, however, second dimension is mandatory.
+The first dimension can be calculated from the initialization list.
+
+How to pass a 2 dimensional array as an argument to a function :
+
+int arr[3][4] = {1,2,3,4};
+
+if function fun2darr expects a 2 dimensional array as argument, you can declare the function as:
+<rt> fun2darr(int arr[][4],int size);
+For the argument, the first dimension has to be provided separately, it cannot be sent along with the array. Only second dimension is passed in the argument.
+
+function call: while calling the function, just array name is passed inplace of the argument.
+fun2darr(arr,3);
+
+index notation to pointer notation:
+
+arr[i][j] => *(*(arr+i)+j) => j[i[a]]
