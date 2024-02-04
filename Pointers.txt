@@ -1,0 +1,86 @@
+Pointers
+a pointer is a variable that can store the memory address of any location, of any variable, function or array etc.
+
+Pointer declaration :
+<base data type> * ptr;
+the variable ptr can store any address of data type given under <base data type>.
+eg.,
+int * ptr;
+here ptr can store address of any integer.
+So if we have an integer variable, x, we can store address of x in ptr.
+
+We can declare multiple pointer variables of same base data type in a single line by seperating the variable names with comma, however every variable name must be preceded by * inorder to be a pointer.
+eg., int *p1 , p2 , *p3;
+Here only p1 and p3 are pointer variables as they are preceded by * in the declaration , where as p2 is a normal integer variable.
+
+How to retrieve address of a variable ?
+We can retrieve the address of a variable by applying the unary & operator on the variable and assign it to the pointer variable as shown below :
+ptr = &x; // Here ptr is said to be pointing to x
+
+How to access the value of a variable, using the pointer pointing to it?
+We can access the value of a variable using its address stored in a pointer variable by using Indirection operator *. It is a unary operator.
+So we can apply * on a pointer variable to access the value at the memory location it is pointing at.
+After applying indirection operator on a pointer variable, the expression is interchangeable with the variable itself.
+eg., if ptr = &x, we can use ptr wherever we have to use &x, similarly ,we can use *ptr wherever we have to use x.
+x = 10 , will now become *ptr = 10.
+scanf("%d",&x) now can be written as scanf("%d",ptr);
+printf("%d",x) can be written as printf("%d",*ptr);
+x += 100 can be written as *ptr += 100;
+x++ can be written as (*ptr)++;
+++x can be written as ++*ptr.
+A variable can be pointed to by multiple pointers at a time and its value can be changed using any pointer.
+eg., int x = 50;
+int *p1,*p2,*p3;
+p1 = &x;
+p2 = p3 = &x ;
+*p1 = 60; // changes x value to 60 and accordingly *p2 and *p3 will also change.
+*p3 = 2 * x; // will assign 120 to x.
+A pointer variable can point to only one variable at a time but it can change its pointing to another variable whenver required.
+eg., int x=10,y=20;
+int *p1;
+p1 = &x; //p1 is pointing to x right now.
+*p1 = 30; // this effects value of x
+p1 = &y; // p1 is pointing to y right now.
+*p1 = 60; // this statement effects the value of y now, as p1 is pointing to y right now.
+
+Wild Pointer: A pointer which is not initialized to any valid address, points to any random location, because of garbage values. It may lead to either runtime errors, or wrong output, because of wrong memory address access. This kind of pointer is dangerous for our program, so it is called Wild pointer.
+
+int *p; // p is a wild pointer as it has garbage value
+
+Null Pointer: Inorder to avoid the dangers associated with garbage value in a pointer, we can explicitly put a 0 in pointer at the time of creation. That will be less problematic, as there is no location with address 0. The pointer which points to 0 location is called NULL Pointer.
+int *p =0; // p is NULL pointer
+
+instead of using numerical 0, we can also use NULL, which is a symbolic name for 0, defined in <stdlib.h> headerfile, after including the header file.
+
+Call by Value Vs Call by Reference
+1 )CBV: When you send the value of a variable as an argument to a function, the variable is said to be sent by "Call by Value".
+CBR: When you send the address of a variable as an argument, then it is said to be shared as "Call by Reference".
+
+2 ) CBV: Since only value is sent, the value is stored in a different variable by the function, which means, it is a copy of the original variable.
+CBR: Since address of the variable is sent, the address is stored in a pointer variable by the function.
+
+3) CBV : Since a different copy of the called function variable is created, changes done by the function are limited to the copy variable.
+CBR: Since address is given to the function, function can modify the address location value, using the pointer indirect reference.
+
+4) CBV: local variables of a function cannot be accessed in called function,because of scope limitations.
+CBR: function gets access to local variables of calling function,through their addresses.
+
+5)CBV: Function can give only one output,using return statement.
+CBR: Function can give multiple outputs, using output variable addresses, without using return statement. Return statement can still be used if required.
+
+All memory addresses are unsigned integers. So all kind of pointer variables, irrespective of their base data type, occupy same amount of memory. So size of all pointers is same on a specific system.
+eg., int *pi; sizeof(pi) will give 8 bytes.
+char *pc; sizeof(pc) also will give 8 bytes.
+long long int *pll; sizeof(pll) will also give 8 bytes.
+however base datatype decides how many bytes to access, when a pointer is applied with indirection operator,as pointer only remembers first byte address.
+
+How to return address from a function:
+
+We can return Address from a function, when the return type is a pointer type (<bdt>*). Calling function needs to capture the return address in a pointer, and can access that address using the pointer.
+
+We can create a variable inside the function and return its address, so that calling function can get access to that variable.
+But we have to make sure the variable's life time does not end after the function execution, it is possible only if the variable is static variable.
+
+If we return the address of a short living variable, of auto storage class, its address will be deallocated by the time the address reaches the calling function. then the pointer that captures the return value will become a dangling pointer, as it is pointing to a deallocated address. This should be avoided by making the variable static.
+
+We can also create memory dynamically inside a function and return the dynamically allocated address from a function. Dynamically allocated memory wont be released until end of the program, or until we release it explicitly by calling free.
